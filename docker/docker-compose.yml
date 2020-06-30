@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest
+    restart: always
+    command: redis-server --appendonly yes --requirepass 123456
+    volumes:
+      - ./redis:/data
+    ports:
+      - 6318:6379
+    networks:
+      - mvp_network
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: mvp
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: mvp
+    volumes:
+      - ./mysql:/var/lib/mysql
+    ports:
+      - 3318:3306
+    networks:
+      - mvp_network
+
+  nginx:
+    image: nginx:alpine
+    restart: always
+    volumes:
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    ports:
+      - 8018:8008
+    networks:
+      - mvp_network
+
+networks:
+  mvp_network:
+    driver: bridge

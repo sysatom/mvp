@@ -13,16 +13,16 @@ import (
 const (
 	GoroutinesNumber = 10
 
-	IssueNumber    = 10000
-	CategoryNumber = 10000
-	BrandNumber    = 10000
+	IssueNumber    = 1000
+	CategoryNumber = 1000
+	BrandNumber    = 1000
 
-	UserNumber  = 100000 * GoroutinesNumber
-	GoodsNumber = 100000 * GoroutinesNumber
+	UserNumber  = 1000 * GoroutinesNumber
+	GoodsNumber = 1000 * GoroutinesNumber
 )
 
 func main() {
-	db, err := sqlx.Connect("mysql", "root:123456@/mvp?charset=utf8")
+	db, err := sqlx.Connect("mysql", "root:123456@localhost:3318/mvp?charset=utf8")
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -133,19 +133,26 @@ func insertMallCategory(db *sqlx.DB) {
 func insertMallUser(db *sqlx.DB, wg *sync.WaitGroup) {
 	defer wg.Done()
 
-	var users []*model.MallUser
-	for i := 0; i < UserNumber/GoroutinesNumber; i++ {
-		user := model.MallUser{}
-		err := faker.FakeData(&user)
+	const limit = 1000
+	total := UserNumber / GoroutinesNumber
+
+	page := total / limit
+
+	for p := 1; p <= page; p++ {
+		var users []*model.MallUser
+		for i := 0; i < limit; i++ {
+			user := model.MallUser{}
+			err := faker.FakeData(&user)
+			if err != nil {
+				fmt.Println(err)
+			}
+			users = append(users, &user)
+		}
+
+		_, err := db.NamedExec("INSERT INTO mall_user (username, password, gender, birthday, last_login_time, last_login_ip, user_level, nickname, mobile, avatar, platform, openid, session_key, status, created_at, updated_at) VALUES (:username, :password, :gender, :birthday, :lastLoginTime, :lastLoginIp, :userLevel, :nickname, :mobile, :avatar, :platform, :openId, :sessionKey, :status, :createdAt, :updatedAt)", users)
 		if err != nil {
 			fmt.Println(err)
 		}
-		users = append(users, &user)
-	}
-
-	_, err := db.NamedExec("INSERT INTO mall_user (username, password, gender, birthday, last_login_time, last_login_ip, user_level, nickname, mobile, avatar, platform, openid, session_key, status, created_at, updated_at) VALUES (:username, :password, :gender, :birthday, :lastLoginTime, :lastLoginIp, :userLevel, :nickname, :mobile, :avatar, :platform, :openId, :sessionKey, :status, :createdAt, :updatedAt)", users)
-	if err != nil {
-		fmt.Println(err)
 	}
 }
 
