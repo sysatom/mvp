@@ -1,7 +1,6 @@
 package model
 
 import (
-	"encoding/json"
 	"time"
 )
 
@@ -41,34 +40,6 @@ const (
 )
 
 const (
-	GROUPON_RULE_STATUS_ON          = 0
-	GROUPON_RULE_STATUS_DOWN_EXPIRE = 1
-	GROUPON_RULE_STATUS_DOWN_ADMIN  = 2
-	GROUPON_STATUS_NONE             = 0
-	GROUPON_STATUS_ON               = 1
-	GROUPON_STATUS_SUCCEED          = 2
-	GROUPON_STATUS_FAIL             = 3
-
-	COUPON_USER_STATUS_USABLE  = 0
-	COUPON_USER_STATUS_USED    = 1
-	COUPON_USER_STATUS_EXPIRED = 2
-	COUPON_USER_STATUS_OUT     = 3
-
-	COUPON_TYPE_COMMON   = 0
-	COUPON_TYPE_REGISTER = 1
-	COUPON_TYPE_CODE     = 2
-
-	COUPON_GOODS_TYPE_ALL      = 0
-	COUPON_GOODS_TYPE_CATEGORY = 1
-	COUPON_GOODS_TYPE_ARRAY    = 2
-
-	COUPON_STATUS_NORMAL  = 0
-	COUPON_STATUS_EXPIRED = 1
-	COUPON_STATUS_OUT     = 2
-
-	COUPON_TIME_TYPE_DAYS = 0
-	COUPON_TIME_TYPE_TIME = 1
-
 	MALL_USER_STATUS_ENABLE  = 0
 	MALL_USER_STATUS_DISABLE = 1
 	MALL_USER_STATUS_DESTROY = 2
@@ -122,21 +93,6 @@ type MallOrderGoods struct {
 	Comment        int     `json:"comment" db:"comment"`
 }
 
-func (m *MallOrderGoods) MarshalJSON() ([]byte, error) {
-	type Alias MallOrderGoods
-
-	var specifications []string
-	_ = json.Unmarshal([]byte(m.Specifications), &specifications)
-
-	return json.Marshal(&struct {
-		*Alias
-		Specifications []string `json:"specifications" db:"specifications"`
-	}{
-		Alias:          (*Alias)(m),
-		Specifications: specifications,
-	})
-}
-
 type MallUser struct {
 	Model
 
@@ -144,7 +100,7 @@ type MallUser struct {
 	Username      string     `json:"username" db:"username" faker:"username"`
 	Password      string     `json:"password" db:"password" faker:"password"`
 	Gender        int        `json:"gender" db:"gender" faker:"oneof: 0, 1, 2"`
-	Birthday      string    `json:"birthday" db:"birthday" faker:"date"`
+	Birthday      string     `json:"birthday" db:"birthday" faker:"date"`
 	LastLoginTime *time.Time `json:"lastLoginTime" db:"lastLoginTime"`
 	LastLoginIP   string     `json:"lastLoginIp" db:"lastLoginIp" faker:"ipv4"`
 	UserLevel     int        `json:"userLevel" db:"userLevel" faker:"oneof: 0, 1, 2"`
@@ -173,37 +129,6 @@ type MallAddress struct {
 	IsDefault     bool   `json:"isDefault" db:"isDefault"`
 }
 
-type MallCollect struct {
-	Model
-
-	App     string `json:"-" faker:"-"`
-	UserID  int    `json:"userId" db:"userId"`
-	ValueID int    `json:"valueId" db:"valueId"`
-	Type    int    `json:"type" db:"type"`
-}
-
-type MallFeedback struct {
-	Model
-
-	App        string `json:"-" faker:"-"`
-	UserID     int    `json:"userId" db:"userId"`
-	Username   string `json:"username" db:"username"`
-	Mobile     string `json:"mobile" db:"mobile"`
-	FeedType   string `json:"feedType" db:"feedType"`
-	Content    string `json:"content" db:"content"`
-	Status     int    `json:"status" db:"status"`
-	HasPicture bool   `json:"hasPicture" db:"hasPicture"`
-	PicURLs    string `json:"picUrls" db:"picUrls"`
-}
-
-type MallFootprint struct {
-	Model
-
-	App     string `json:"-" faker:"-"`
-	UserID  int    `json:"userId" db:"userId"`
-	GoodsID int    `json:"goodsId" db:"goodsId"`
-}
-
 type MallSearchHistory struct {
 	Model
 
@@ -211,19 +136,6 @@ type MallSearchHistory struct {
 	UserID  int    `json:"userId" db:"userId"`
 	Keyword string `json:"keyword" db:"keyword"`
 	From    string `json:"from" db:"from"`
-}
-
-type MallComment struct {
-	Model
-
-	App        string `json:"-" faker:"-"`
-	UserID     int    `json:"userId" db:"userId"`
-	ValueID    int    `json:"valueId" db:"valueId"`
-	Type       int    `json:"type" db:"type"`
-	Content    string `json:"content" db:"content"`
-	HasPicture bool   `json:"hasPicture" db:"hasPicture"`
-	PicURLs    string `json:"picUrls" db:"picUrls"`
-	Star       int    `json:"star" db:"star"`
 }
 
 type MallCart struct {
@@ -240,21 +152,6 @@ type MallCart struct {
 	Specifications string  `json:"specifications" db:"specifications"`
 	Checked        bool    `json:"checked" db:"checked"`
 	PicURL         string  `json:"picUrl" db:"picUrl"`
-}
-
-func (m *MallCart) MarshalJSON() ([]byte, error) {
-	type Alias MallCart
-
-	var specifications []string
-	_ = json.Unmarshal([]byte(m.Specifications), &specifications)
-
-	return json.Marshal(&struct {
-		*Alias
-		Specifications []string `json:"specifications" db:"specifications"`
-	}{
-		Alias:          (*Alias)(m),
-		Specifications: specifications,
-	})
 }
 
 type MallGoods struct {
@@ -280,21 +177,6 @@ type MallGoods struct {
 	Detail       string  `json:"detail" db:"detail"`
 }
 
-func (m *MallGoods) MarshalJSON() ([]byte, error) {
-	type Alias MallGoods
-
-	var gallery []string
-	_ = json.Unmarshal([]byte(m.Gallery), &gallery)
-
-	return json.Marshal(&struct {
-		*Alias
-		Gallery []string `json:"gallery" db:"gallery"`
-	}{
-		Alias:   (*Alias)(m),
-		Gallery: gallery,
-	})
-}
-
 type MallGoodsAttribute struct {
 	Model
 
@@ -316,21 +198,6 @@ type MallGoodsProduct struct {
 	URL            string  `json:"url" db:"url"`
 }
 
-func (m *MallGoodsProduct) MarshalJSON() ([]byte, error) {
-	type Alias MallGoodsProduct
-
-	var specifications []string
-	_ = json.Unmarshal([]byte(m.Specifications), &specifications)
-
-	return json.Marshal(&struct {
-		*Alias
-		Specifications []string `json:"specifications" db:"specifications"`
-	}{
-		Alias:          (*Alias)(m),
-		Specifications: specifications,
-	})
-}
-
 type MallGoodsSpecification struct {
 	Model
 
@@ -346,8 +213,8 @@ type MallBrand struct {
 
 	App        string  `json:"-" faker:"-"`
 	Name       string  `json:"name" db:"name"`
-	Desc       string  `json:"desc" db:"desc"`
-	PicURL     string  `json:"picUrl" db:"picUrl"`
+	Desc       string  `json:"desc" db:"desc" faker:"sentence"`
+	PicURL     string  `json:"picUrl" db:"picUrl" faker:"url"`
 	SortOrder  int     `json:"sortOrder" db:"sortOrder"`
 	FloorPrice float64 `json:"floorPrice" db:"floorPrice"`
 }
@@ -370,128 +237,6 @@ type MallIssue struct {
 	Model
 
 	App      string `json:"-" faker:"-"`
-	Question string `json:"question" db:"question"`
-	Answer   string `json:"answer" db:"answer"`
-}
-
-type MallKeyword struct {
-	Model
-
-	App       string `json:"-" faker:"-"`
-	Keyword   string `json:"keyword" db:"keyword"`
-	URL       string `json:"url" db:"url"`
-	IsHot     bool   `json:"isHot" db:"isHot"`
-	IsDefault bool   `json:"isDefault" db:"isDefault"`
-	SortOrder int    `json:"sortOrder" db:"sortOrder"`
-}
-
-type MallConfig struct {
-	Model
-
-	App      string `json:"-" faker:"-"`
-	KeyName  string `json:"keyName" db:"keyName"`
-	KeyValue string `json:"keyValue" db:"keyValue"`
-}
-
-type MallAd struct {
-	Model
-
-	App       string     `json:"-" faker:"-"`
-	Name      string     `json:"name" db:"name"`
-	Link      string     `json:"link" db:"link"`
-	URL       string     `json:"url" db:"url"`
-	Position  int        `json:"position" db:"position"`
-	Content   string     `json:"content" db:"content"`
-	StartTime *time.Time `json:"startTime" db:"startTime"`
-	EndTime   *time.Time `json:"endTime" db:"endTime"`
-	Enabled   bool       `json:"enabled" db:"enabled"`
-}
-
-type MallCoupon struct {
-	Model
-
-	App        string     `json:"-" faker:"-"`
-	Name       string     `json:"name" db:"name"`
-	Desc       string     `json:"desc" db:"desc"`
-	Tag        string     `json:"tag" db:"tag"`
-	Total      int        `json:"total" db:"total"`
-	Discount   float64    `json:"discount" db:"discount"`
-	Min        float64    `json:"min" db:"min"`
-	Limit      int        `json:"limit" db:"limit"`
-	Type       int        `json:"type" db:"type"`
-	Status     int        `json:"status" db:"status"`
-	GoodsType  int        `json:"goodsType" db:"goodsType"`
-	GoodsValue string     `json:"goodsValue" db:"goodsValue"`
-	Code       string     `json:"code" db:"code"`
-	TimeType   int        `json:"timeType" db:"timeType"`
-	Days       int        `json:"days" db:"days"`
-	StartTime  *time.Time `json:"startTime" db:"startTime"`
-	EndTime    *time.Time `json:"endTime" db:"endTime"`
-}
-
-func (m *MallCoupon) MarshalJSON() ([]byte, error) {
-	type Alias MallCoupon
-	return json.Marshal(&struct {
-		*Alias
-		StartTime string `json:"startTime" db:"startTime"`
-		EndTime   string `json:"endTime" db:"endTime"`
-	}{
-		Alias:     (*Alias)(m),
-		StartTime: m.StartTime.Format("2006-01-02"),
-		EndTime:   m.EndTime.Format("2006-01-02"),
-	})
-}
-
-type MallCouponUser struct {
-	Model
-
-	App       string     `json:"-" faker:"-"`
-	UserID    int        `json:"userId" db:"userId"`
-	CouponID  int        `json:"couponId" db:"couponId"`
-	OrderID   int        `json:"orderID" db:"orderID"`
-	Status    int        `json:"status" db:"status"`
-	UsedTime  *time.Time `json:"usedTime" db:"usedTime"`
-	StartTime *time.Time `json:"startTime" db:"startTime"`
-	EndTime   *time.Time `json:"endTime" db:"endTime"`
-}
-
-type MallTopic struct {
-	Model
-
-	App       string  `json:"-" faker:"-"`
-	Title     string  `json:"title" db:"title"`
-	Subtitle  string  `json:"subtitle" db:"subtitle"`
-	Content   string  `json:"content" db:"content"`
-	Price     float64 `json:"price" db:"price"`
-	ReadCount int     `json:"readCount" db:"readCount"`
-	PicURL    string  `json:"picUrl" db:"picUrl"`
-	SortOrder int     `json:"sortOrder" db:"sortOrder"`
-	Goods     string  `json:"goods" db:"goods"`
-}
-
-type MallGroupon struct {
-	Model
-
-	App             string     `json:"-" faker:"-"`
-	OrderID         int        `json:"orderId" db:"orderId"`
-	GrouponID       int        `json:"grouponId" db:"grouponId"`
-	RulesID         int        `json:"rulesId" db:"rulesId"`
-	UserID          int        `json:"userId" db:"userId"`
-	ShareURL        string     `json:"shareUrl" db:"shareUrl"`
-	CreatorUserID   int        `json:"creatorUserId" db:"creatorUserId"`
-	CreatorUserTime *time.Time `json:"creatorUserTime" db:"creatorUserTime"`
-	Status          int        `json:"status" db:"status"`
-}
-
-type MallGrouponRule struct {
-	Model
-
-	App            string     `json:"-" faker:"-"`
-	GoodsID        int        `json:"goodsId" db:"goodsId"`
-	GoodsName      string     `json:"goodsName" db:"goodsName"`
-	PicURL         string     `json:"picUrl" db:"picUrl"`
-	Discount       float64    `json:"discount" db:"discount"`
-	DiscountMember int        `json:"discountMember" db:"discountMember"`
-	ExpireTime     *time.Time `json:"expireTime" db:"expireTime"`
-	Status         int        `json:"status" db:"status"`
+	Question string `json:"question" db:"question" faker:"sentence"`
+	Answer   string `json:"answer" db:"answer" faker:"sentence"`
 }
