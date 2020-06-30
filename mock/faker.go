@@ -13,19 +13,16 @@ import (
 const (
 	GoroutinesNumber = 10
 
-	IssueNumber    = 1000
-	CategoryNumber = 1000
-	BrandNumber    = 1000
+	IssueNumber    = 10
+	CategoryNumber = 10
+	BrandNumber    = 10
 
 	UserNumber  = 1000 * GoroutinesNumber
 	GoodsNumber = 1000 * GoroutinesNumber
 )
 
 func main() {
-	db, err := sqlx.Connect("mysql", "root:123456@localhost:3318/mvp?charset=utf8")
-	if err != nil {
-		fmt.Println(err)
-	}
+	db := sqlx.MustConnect("mysql", "root:123456@(127.0.0.1:3318)/mvp?charset=utf8mb4")
 
 	GenerateBase(db)
 	GenerateUser(db)
@@ -73,7 +70,7 @@ func insertMallBrand(db *sqlx.DB) {
 		brands = append(brands, &brand)
 	}
 
-	_, err := db.NamedExec("INSERT INTO mall_brand (`name`, `desc`, pic_url, sort_order, floor_price, created_at, updated_at) VALUES (:name, :desc, :picUrl, :sortOrder, :floorPrice, :createdAt, :updatedAt)", brands)
+	_, err := db.NamedExec("INSERT INTO mall_brand (`name`, `desc`, pic_url, sort_order, floor_price, created_at, updated_at) VALUES (:name, :desc, :pic_url, :sort_order, :floor_price, :created_at, :updated_at)", brands)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -90,7 +87,7 @@ func insertMallIssue(db *sqlx.DB) {
 		issues = append(issues, &issue)
 	}
 
-	_, err := db.NamedExec("INSERT INTO mall_issue (`question`, `answer`, created_at, updated_at) VALUES (:question, :answer, :createdAt, :updatedAt)", issues)
+	_, err := db.NamedExec("INSERT INTO mall_issue (`question`, `answer`, created_at, updated_at) VALUES (:question, :answer, :created_at, :updated_at)", issues)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -104,7 +101,7 @@ func insertMallCategory(db *sqlx.DB) {
 			fmt.Println(err)
 		}
 		category.Level = "L1"
-		res, err := db.NamedExec("INSERT INTO mall_category (`name`, `keywords`, `desc`, pid, icon_url, pic_url, `level`, sort_order, created_at, updated_at) VALUES (:name, :keywords, :desc, :pid, :iconUrl, :picUrl, :level, :sortOrder, :createdAt, :updatedAt)", category)
+		res, err := db.NamedExec("INSERT INTO mall_category (`name`, `keywords`, `desc`, pid, icon_url, pic_url, `level`, sort_order, created_at, updated_at) VALUES (:name, :keywords, :desc, :pid, :icon_url, :pic_url, :level, :sort_order, :created_at, :updated_at)", category)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -122,7 +119,7 @@ func insertMallCategory(db *sqlx.DB) {
 			}
 			childCategory.Level = "L2"
 			childCategory.Pid = int(categoryID)
-			_, err := db.NamedExec("INSERT INTO mall_category (`name`, `keywords`, `desc`, pid, icon_url, pic_url, `level`, sort_order, created_at, updated_at) VALUES (:name, :keywords, :desc, :pid, :iconUrl, :picUrl, :level, :sortOrder, :createdAt, :updatedAt)", childCategory)
+			_, err := db.NamedExec("INSERT INTO mall_category (`name`, `keywords`, `desc`, pid, icon_url, pic_url, `level`, sort_order, created_at, updated_at) VALUES (:name, :keywords, :desc, :pid, :icon_url, :pic_url, :level, :sort_order, :created_at, :updated_at)", childCategory)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -149,7 +146,7 @@ func insertMallUser(db *sqlx.DB, wg *sync.WaitGroup) {
 			users = append(users, &user)
 		}
 
-		_, err := db.NamedExec("INSERT INTO mall_user (username, password, gender, birthday, last_login_time, last_login_ip, user_level, nickname, mobile, avatar, platform, openid, session_key, status, created_at, updated_at) VALUES (:username, :password, :gender, :birthday, :lastLoginTime, :lastLoginIp, :userLevel, :nickname, :mobile, :avatar, :platform, :openId, :sessionKey, :status, :createdAt, :updatedAt)", users)
+		_, err := db.NamedExec("INSERT INTO mall_user (username, password, gender, birthday, last_login_time, last_login_ip, user_level, nickname, mobile, avatar, platform, openid, session_key, status, created_at, updated_at) VALUES (:username, :password, :gender, :birthday, :last_login_time, :last_login_ip, :user_level, :nickname, :mobile, :avatar, :platform, :openid, :session_key, :status, :created_at, :updated_at)", users)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -173,7 +170,7 @@ func insertMallGoods(db *sqlx.DB, wg *sync.WaitGroup) {
 		goods.Gallery = string(j)
 		goods.CounterPrice = goods.CounterPrice * 1000
 		goods.RetailPrice = goods.RetailPrice * 1000
-		res, err := db.NamedExec("INSERT INTO mall_goods (goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, created_at, updated_at) VALUES (:goodsSn, :name, :categoryId, :brandId, :gallery, :keywords, :brief, :isOnSale, :sortOrder, :picUrl, :shareUrl, :isNew, :isHot, :unit, :counterPrice, :retailPrice, :detail, :createdAt, :updatedAt)", goods)
+		res, err := db.NamedExec("INSERT INTO mall_goods (goods_sn, name, category_id, brand_id, gallery, keywords, brief, is_on_sale, sort_order, pic_url, share_url, is_new, is_hot, unit, counter_price, retail_price, detail, created_at, updated_at) VALUES (:goods_sn, :name, :category_id, :brand_id, :gallery, :keywords, :brief, :is_on_sale, :sort_order, :pic_url, :share_url, :is_new, :is_hot, :unit, :counter_price, :retail_price, :detail, :created_at, :updated_at)", goods)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -190,7 +187,7 @@ func insertMallGoods(db *sqlx.DB, wg *sync.WaitGroup) {
 				fmt.Println(err)
 			}
 			attribute.GoodsID = int(goodsID)
-			_, err = db.NamedExec("INSERT INTO mall_goods_attribute (goods_id, attribute, value, created_at, updated_at) VALUES (:goodsId, :attribute, :value, :createdAt, :updatedAt)", attribute)
+			_, err = db.NamedExec("INSERT INTO mall_goods_attribute (goods_id, attribute, value, created_at, updated_at) VALUES (:goods_id, :attribute, :value, :created_at, :updated_at)", attribute)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -207,7 +204,7 @@ func insertMallGoods(db *sqlx.DB, wg *sync.WaitGroup) {
 			}
 			specification.Specification = spec
 			specification.GoodsID = int(goodsID)
-			_, err = db.NamedExec("INSERT INTO mall_goods_specification (goods_id, specification, value, pic_url, created_at, updated_at) VALUES (:goodsId, :specification, :value, :picUrl, :createdAt, :updatedAt)", specification)
+			_, err = db.NamedExec("INSERT INTO mall_goods_specification (goods_id, specification, value, pic_url, created_at, updated_at) VALUES (:goods_id, :specification, :value, :pic_url, :created_at, :updated_at)", specification)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -229,7 +226,7 @@ func insertMallGoods(db *sqlx.DB, wg *sync.WaitGroup) {
 			product.Price = product.Price * 1000
 			product.GoodsID = int(goodsID)
 			product.Specifications = string(s)
-			_, err = db.NamedExec("INSERT INTO mall_goods_product (goods_id, specifications, price, number, url, created_at, updated_at) VALUES (:goodsId, :specifications, :price, :number, :url, :createdAt, :updatedAt)", product)
+			_, err = db.NamedExec("INSERT INTO mall_goods_product (goods_id, specifications, price, number, url, created_at, updated_at) VALUES (:goods_id, :specifications, :price, :number, :url, :created_at, :updated_at)", product)
 			if err != nil {
 				fmt.Println(err)
 			}

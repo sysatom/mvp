@@ -1,6 +1,6 @@
 # Dump of table mall_address
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_address`;
 CREATE TABLE `mall_address`
 (
     `id`             int(11)      NOT NULL AUTO_INCREMENT,
@@ -27,7 +27,7 @@ CREATE TABLE `mall_address`
 
 # Dump of table mall_brand
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_brand`;
 CREATE TABLE `mall_brand`
 (
     `id`          int(11)        NOT NULL AUTO_INCREMENT,
@@ -48,7 +48,7 @@ CREATE TABLE `mall_brand`
 
 # Dump of table mall_cart
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_cart`;
 CREATE TABLE `mall_cart`
 (
     `id`             int(11)        NOT NULL AUTO_INCREMENT,
@@ -74,7 +74,7 @@ CREATE TABLE `mall_cart`
 
 # Dump of table mall_category
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_category`;
 CREATE TABLE `mall_category`
 (
     `id`         int(11)       NOT NULL AUTO_INCREMENT,
@@ -99,7 +99,7 @@ CREATE TABLE `mall_category`
 
 # Dump of table mall_goods
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_goods`;
 CREATE TABLE `mall_goods`
 (
     `id`            int(11)        NOT NULL AUTO_INCREMENT,
@@ -136,7 +136,7 @@ CREATE TABLE `mall_goods`
 
 # Dump of table mall_goods_attribute
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_goods_attribute`;
 CREATE TABLE `mall_goods_attribute`
 (
     `id`         int(11)      NOT NULL AUTO_INCREMENT,
@@ -156,7 +156,7 @@ CREATE TABLE `mall_goods_attribute`
 
 # Dump of table mall_goods_product
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_goods_product`;
 CREATE TABLE `mall_goods_product`
 (
     `id`             int(11)        NOT NULL AUTO_INCREMENT,
@@ -177,7 +177,7 @@ CREATE TABLE `mall_goods_product`
 
 # Dump of table mall_goods_specification
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_goods_specification`;
 CREATE TABLE `mall_goods_specification`
 (
     `id`            int(11)      NOT NULL AUTO_INCREMENT,
@@ -198,7 +198,7 @@ CREATE TABLE `mall_goods_specification`
 
 # Dump of table mall_issue
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_issue`;
 CREATE TABLE `mall_issue`
 (
     `id`         int(11)      NOT NULL AUTO_INCREMENT,
@@ -216,7 +216,7 @@ CREATE TABLE `mall_issue`
 
 # Dump of table mall_order
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_order`;
 CREATE TABLE `mall_order`
 (
     `id`             int(11)        NOT NULL AUTO_INCREMENT,
@@ -259,7 +259,7 @@ CREATE TABLE `mall_order`
 
 # Dump of table mall_order_goods
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_order_goods`;
 CREATE TABLE `mall_order_goods`
 (
     `id`             int(11)        NOT NULL AUTO_INCREMENT,
@@ -287,7 +287,7 @@ CREATE TABLE `mall_order_goods`
 
 # Dump of table mall_search_history
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_search_history`;
 CREATE TABLE `mall_search_history`
 (
     `id`         int(11)     NOT NULL AUTO_INCREMENT,
@@ -305,7 +305,7 @@ CREATE TABLE `mall_search_history`
 
 # Dump of table mall_user
 # ------------------------------------------------------------
-
+DROP TABLE IF EXISTS `mall_user`;
 CREATE TABLE `mall_user`
 (
     `id`              int(11)      NOT NULL AUTO_INCREMENT,

@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/sysatom/mvp/server/controller"
+	"github.com/sysatom/mvp/server/database"
+	"github.com/sysatom/mvp/server/redis"
 	"github.com/valyala/fasthttp"
 )
 
@@ -30,10 +32,17 @@ func (h *ServerHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 }
 
 func main() {
+	// Database
+	database.Connect()
+
+	// Redis
+	redis.Connect()
+
+	// Http server
 	serverHandler := &ServerHandler{
 		foobar: "foobar",
 	}
-	err := fasthttp.ListenAndServe(":8018", serverHandler.HandleFastHTTP)
+	err := fasthttp.ListenAndServe(":8055", serverHandler.HandleFastHTTP)
 	if err != nil {
 		fmt.Println(err)
 	}
