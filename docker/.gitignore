@@ -1,3 +1,2 @@
-mysql
-nginx
-redis
+mysql/data
+redis/data
