@@ -159,53 +159,53 @@ type MallGoods struct {
 
 	App          string  `json:"-" faker:"-"`
 	GoodsSN      string  `json:"goodsSn" db:"goodsSn"`
-	Name         string  `json:"name" db:"name" binding:"required"`
+	Name         string  `json:"name" db:"name"`
 	CategoryID   int     `json:"categoryId" db:"categoryId"`
 	BrandID      int     `json:"brandId" db:"brandId"`
-	Gallery      string  `json:"gallery" db:"gallery"`
-	Keywords     string  `json:"keywords" db:"keywords"`
-	Brief        string  `json:"brief" db:"brief"`
+	Gallery      string  `json:"gallery" db:"gallery" faker:"-"`
+	Keywords     string  `json:"keywords" db:"keywords" faker:"word"`
+	Brief        string  `json:"brief" db:"brief" faker:"sentence"`
 	IsOnSale     bool    `json:"isOnSale" db:"isOnSale"`
 	SortOrder    int     `json:"sortOrder" db:"sortOrder"`
-	PicURL       string  `json:"picUrl" db:"picUrl"`
-	ShareURL     string  `json:"shareUrl" db:"shareUrl"`
+	PicURL       string  `json:"picUrl" db:"picUrl" faker:"url"`
+	ShareURL     string  `json:"shareUrl" db:"shareUrl" faker:"url"`
 	IsNew        bool    `json:"isNew" db:"isNew"`
 	IsHot        bool    `json:"isHot" db:"isHot"`
-	Unit         string  `json:"unit" db:"unit"`
+	Unit         string  `json:"unit" db:"unit" faker:"word"`
 	CounterPrice float64 `json:"counterPrice" db:"counterPrice"`
 	RetailPrice  float64 `json:"retailPrice" db:"retailPrice"`
-	Detail       string  `json:"detail" db:"detail"`
+	Detail       string  `json:"detail" db:"detail" faker:"sentence"`
 }
 
 type MallGoodsAttribute struct {
 	Model
 
 	App       string `json:"-" faker:"-"`
-	GoodsID   int    `json:"goods_id" db:"goods_id"`
-	Attribute string `json:"attribute" db:"attribute"`
-	Value     string `json:"value" db:"value"`
-	SortOrder int    `json:"sort_order" db:"sort_order"`
+	GoodsID   int    `json:"goodsId" db:"goodsId" faker:"-"`
+	Attribute string `json:"attribute" db:"attribute" faker:"word"`
+	Value     string `json:"value" db:"value" faker:"sentence"`
+	SortOrder int    `json:"sortOrder" db:"sortOrder"`
 }
 
 type MallGoodsProduct struct {
 	Model
 
 	App            string  `json:"-" faker:"-"`
-	GoodsID        int     `json:"goodsId" db:"goodsId"`
-	Specifications string  `json:"specifications" db:"specifications"`
+	GoodsID        int     `json:"goodsId" db:"goodsId" faker:"-"`
+	Specifications string  `json:"specifications" db:"specifications" faker:"-"`
 	Price          float64 `json:"price" db:"price"`
 	Number         int     `json:"number" db:"number"`
-	URL            string  `json:"url" db:"url"`
+	URL            string  `json:"url" db:"url" faker:"url"`
 }
 
 type MallGoodsSpecification struct {
 	Model
 
 	App           string `json:"-" faker:"-"`
-	GoodsID       int    `json:"goodsId" db:"goodsId"`
-	Specification string `json:"specification" db:"specification"`
+	GoodsID       int    `json:"goodsId" db:"goodsId" faker:"-"`
+	Specification string `json:"specification" db:"specification" faker:"-"`
 	Value         string `json:"value" db:"value"`
-	PicURL        string `json:"picUrl" db:"picUrl"`
+	PicURL        string `json:"picUrl" db:"picUrl" faker:"url"`
 }
 
 type MallBrand struct {
@@ -224,12 +224,12 @@ type MallCategory struct {
 
 	App       string `json:"-" faker:"-"`
 	Name      string `json:"name" db:"name"`
-	Keywords  string `json:"keywords" db:"keywords"`
-	Desc      string `json:"desc" db:"desc"`
-	Pid       int    `json:"pid" db:"pid"`
-	IconURL   string `json:"iconUrl" db:"iconUrl"`
-	PicURL    string `json:"picUrl" db:"picUrl"`
-	Level     string `json:"level" db:"level"`
+	Keywords  string `json:"keywords" db:"keywords" faker:"word"`
+	Desc      string `json:"desc" db:"desc" faker:"sentence"`
+	Pid       int    `json:"pid" db:"pid" faker:"-"`
+	IconURL   string `json:"iconUrl" db:"iconUrl" faker:"url"`
+	PicURL    string `json:"picUrl" db:"picUrl" faker:"url"`
+	Level     string `json:"level" db:"level" faker:"-"`
 	SortOrder int    `json:"sortOrder" db:"sortOrder"`
 }
 
