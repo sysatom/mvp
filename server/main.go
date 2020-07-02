@@ -42,7 +42,7 @@ func main() {
 	serverHandler := &ServerHandler{
 		foobar: "foobar",
 	}
-	err := fasthttp.ListenAndServe(":8055", serverHandler.HandleFastHTTP)
+	err := fasthttp.ListenAndServe(":5018", serverHandler.HandleFastHTTP)
 	if err != nil {
 		fmt.Println(err)
 	}

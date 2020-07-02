@@ -12,7 +12,7 @@ var RDB *redis.Client
 
 func Connect() {
 	RDB = redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6318",
+		Addr:     "redis:6379",
 		Password: "123456",
 		DB:       0,
 	})

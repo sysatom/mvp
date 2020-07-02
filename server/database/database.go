@@ -8,5 +8,5 @@ import (
 var DB *sqlx.DB
 
 func Connect() {
-	DB = sqlx.MustConnect("mysql", "root:123456@(127.0.0.1:3318)/mvp?charset=utf8mb4&parseTime=true")
+	DB = sqlx.MustConnect("mysql", "root:123456@(mysql:3306)/mvp?charset=utf8mb4&parseTime=true")
 }

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+bash ./build.sh
 cd docker
 docker-compose up -d
 cd ../

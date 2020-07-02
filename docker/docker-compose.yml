@@ -38,6 +38,19 @@ services:
     networks:
       - mvp_network
 
+  app:
+    image: mvp-server:latest
+    environment:
+      DB_URL: mysql
+      REDIS_URL: redis
+    ports:
+      - 5018:5018
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - mvp_network
+
 networks:
   mvp_network:
     driver: bridge
