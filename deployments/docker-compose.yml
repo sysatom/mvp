@@ -34,18 +34,60 @@ services:
     volumes:
       - ./nginx/conf.d/:/etc/nginx/conf.d/
     ports:
-      - 8018:8008
+      - 8018:8018
     networks:
       - mvp_network
 
-  app:
+  app1:
     image: mvp-server:latest
+    env_file:
+      - ./app.env
     environment:
-      MYSQL_URL: root:123456@(mysql:3306)/mvp?charset=utf8mb4&parseTime=true
-      REDIS_ADDR: redis:6379
-      REDIS_PASSWORD: 123456
+      APP_NAME: app1
     ports:
-      - 5018:5018
+      - 5118:5018
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - mvp_network
+
+  app2:
+    image: mvp-server:latest
+    env_file:
+      - ./app.env
+    environment:
+      APP_NAME: app2
+    ports:
+      - 5218:5018
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - mvp_network
+
+  app3:
+    image: mvp-server:latest
+    env_file:
+      - ./app.env
+    environment:
+      APP_NAME: app3
+    ports:
+      - 5318:5018
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - mvp_network
+
+  app4:
+    image: mvp-server:latest
+    env_file:
+      - ./app.env
+    environment:
+      APP_NAME: app4
+    ports:
+      - 5418:5018
     depends_on:
       - mysql
       - redis

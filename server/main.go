@@ -6,6 +6,7 @@ import (
 	"github.com/sysatom/mvp/server/database"
 	"github.com/sysatom/mvp/server/redis"
 	"github.com/valyala/fasthttp"
+	"os"
 )
 
 type ServerHandler struct {
@@ -15,7 +16,7 @@ type ServerHandler struct {
 func (h *ServerHandler) HandleFastHTTP(ctx *fasthttp.RequestCtx) {
 	switch string(ctx.Path()) {
 	case "/":
-		_, _ = fmt.Fprintf(ctx, "/")
+		_, _ = fmt.Fprintf(ctx, os.Getenv("APP_NAME"))
 	case "/auth":
 		controller.AuthHandler(ctx)
 	case "/goods":
