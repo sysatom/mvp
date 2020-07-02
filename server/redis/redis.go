@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/go-redis/redis/v8"
+	"os"
 )
 
 var ctx = context.Background()
@@ -12,8 +13,8 @@ var RDB *redis.Client
 
 func Connect() {
 	RDB = redis.NewClient(&redis.Options{
-		Addr:     "redis:6379",
-		Password: "123456",
+		Addr:     os.Getenv("REDIS_ADDR"),
+		Password: os.Getenv("REDIS_PASSWORD"),
 		DB:       0,
 	})
 	pong, err := RDB.Ping(ctx).Result()

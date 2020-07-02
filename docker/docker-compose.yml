@@ -41,8 +41,9 @@ services:
   app:
     image: mvp-server:latest
     environment:
-      DB_URL: mysql
-      REDIS_URL: redis
+      MYSQL_URL: root:123456@(mysql:3306)/mvp?charset=utf8mb4&parseTime=true
+      REDIS_ADDR: redis:6379
+      REDIS_PASSWORD: 123456
     ports:
       - 5018:5018
     depends_on:

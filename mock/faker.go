@@ -10,6 +10,7 @@ import (
 	"sync"
 )
 
+// Config
 const (
 	GoroutinesNumber = 10
 
@@ -19,10 +20,12 @@ const (
 
 	UserNumber  = 1000 * GoroutinesNumber
 	GoodsNumber = 1000 * GoroutinesNumber
+
+	MysqlUrl = "root:123456@(127.0.0.1:3318)/mvp?charset=utf8mb4"
 )
 
 func main() {
-	db := sqlx.MustConnect("mysql", "root:123456@(127.0.0.1:3318)/mvp?charset=utf8mb4")
+	db := sqlx.MustConnect("mysql", MysqlUrl)
 
 	GenerateBase(db)
 	GenerateUser(db)
