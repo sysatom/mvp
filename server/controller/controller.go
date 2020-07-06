@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/sysatom/mvp/model"
@@ -12,8 +11,6 @@ import (
 	"strings"
 	"time"
 )
-
-var ctx = context.Background()
 
 func AuthHandler(ctx *fasthttp.RequestCtx) {
 	args := ctx.QueryArgs()
